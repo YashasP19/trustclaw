@@ -19,7 +19,7 @@ export const createInviteCode = adminProcedure
             code: generateInviteCode(),
             createdBy: ctx.session.user.id,
             expiresAt,
-            note: input.note || undefined,
+            note: input.note === "" ? undefined : input.note,
           },
           select: {
             id: true,
