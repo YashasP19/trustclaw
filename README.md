@@ -167,6 +167,18 @@ For local AI Gateway access, run `vercel link && vercel env pull` to get a short
 
 For Telegram, point your bot's webhook at `<NEXT_PUBLIC_APP_URL>/api/telegram-webhook` with `TELEGRAM_WEBHOOK_SECRET` as the secret token.
 
+### Self-host with Docker
+
+Run TrustClaw anywhere Docker runs (a VPS, home server, etc.) without Vercel. The compose file starts the app, Postgres with pgvector, Redis, and a small scheduler that calls the cron endpoint once a minute (what `vercel.json` does on Vercel).
+
+```bash
+cp .env.example .env
+# fill in POSTGRES_PASSWORD, BETTER_AUTH_SECRET, COMPOSIO_API_KEY, CRON_SECRET, AI_GATEWAY_API_KEY
+docker compose up -d --build
+```
+
+The app is served at http://localhost:3000. Set `NEXT_PUBLIC_APP_URL` in `.env` to your public URL **before building** (it is baked into the client bundle), and put the app behind a reverse proxy that terminates HTTPS. The schema is applied automatically on startup.
+
 ### Required env vars
 
 | Variable | Purpose |
