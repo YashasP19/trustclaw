@@ -179,6 +179,8 @@ docker compose up -d --build
 
 The app is served at http://localhost:3000. Set `NEXT_PUBLIC_APP_URL` in `.env` to your public URL **before building** (it is baked into the client bundle), and put the app behind a reverse proxy that terminates HTTPS. The schema is applied automatically on startup.
 
+The app connects to Postgres with `sslmode=verify-full` unless the `DATABASE_URL` says `sslmode=disable`. The bundled Postgres is only reachable on the compose network and has no TLS, so `docker-compose.yml` sets `?sslmode=disable` for it. If you point the app at an external database instead, edit `DATABASE_URL` in `docker-compose.yml` and drop that suffix so the strict default applies.
+
 ### Required env vars
 
 | Variable | Purpose |

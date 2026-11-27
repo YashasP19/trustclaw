@@ -34,7 +34,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://trustclaw:${POSTGRES_PASSWORD}@db:5432/trustclaw
+      DATABASE_URL: postgresql://trustclaw:${POSTGRES_PASSWORD}@db:5432/trustclaw?sslmode=disable
       REDIS_URL: redis://redis:6379
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Set BETTER_AUTH_SECRET in .env}
       COMPOSIO_API_KEY: ${COMPOSIO_API_KEY:?Set COMPOSIO_API_KEY in .env}

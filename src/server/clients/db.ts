@@ -2,9 +2,10 @@ import { PrismaClient } from "~/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { env } from "~/env";
 
-function ensureVerifyFullSsl(url: string): string {
+function applySslMode(url: string): string {
   const parsed = new URL(url);
-  if (parsed.searchParams.get("sslmode") !== "verify-full") {
+  const sslmode = parsed.searchParams.get("sslmode");
+  if (sslmode !== "verify-full" && sslmode !== "disable") {
     parsed.searchParams.set("sslmode", "verify-full");
   }
   return parsed.toString();
@@ -12,7 +13,7 @@ function ensureVerifyFullSsl(url: string): string {
 
 const createPrismaClient = () => {
   const adapter = new PrismaPg({
-    connectionString: ensureVerifyFullSsl(env.DATABASE_URL),
+    connectionString: applySslMode(env.DATABASE_URL),
   });
 
   return new PrismaClient({
